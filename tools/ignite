@@ -1,0 +1,36 @@
+#!/usr/bin/php
+<?php if (! defined('STDIN')) die ('Must be called via CLI');
+
+$options = getopt('n:mc');
+$is_model = isset($options['m']);
+$is_controller = isset($options['c']);
+$name = $options['n'];
+
+if (! ($is_model XOR $is_controller))
+{
+	die("You must specify if this request is for a model or a controller.\n");
+}
+if ($is_model)
+{
+	create_file("model.tpl",$name,"../application/models/".strtolower($name).".php");
+}
+if ($is_controller)
+{
+	create_file("controller.tpl",$name,"../application/controllers/".strtolower($name).".php");
+}
+
+function create_file($template,$name,$path)
+{
+	$template = file_get_contents(__DIR__."/igniter/templates/".$template);
+	$template = str_replace("{{name}}",strtolower($name),$template);
+	$template = str_replace("{{NAME}}",strtoupper($name),$template);
+	$template = str_replace("{{Name}}",ucfirst(strtolower($name)),$template);
+	$handle = fopen($path,"a+");
+	if (! $handle)
+	{
+		die("Could not create file");
+	}
+	fwrite($handle,$template);
+	fclose($handle);
+}
+
