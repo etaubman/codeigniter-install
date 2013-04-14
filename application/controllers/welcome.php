@@ -15,7 +15,7 @@ class Welcome extends MY_Controller {
 		
 	}
 	
-	public function update_timestampe ()
+	public function update_timestamp ()
 	{
 		
 	}
