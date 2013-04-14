@@ -316,6 +316,28 @@
 
 /*
  * ------------------------------------------------------
+ *  Is there a pre-filter on the requested method?
+ * ------------------------------------------------------
+ */
+ 	if (isset($CI->pre_filter) && is_array($CI->pre_filter))
+	{
+		foreach ($CI->pre_filter as $pre_filter_action => $filtered_action)
+		{
+			if (is_string($filtered_action) && $method == $filtered_action)
+			{
+				//call pre-filter
+				call_user_func_array(array(&$CI,$pre_filter_action),array_slice($URI->rsegments, 2));
+			}
+			else if (is_array($filtered_action) && in_array($method,$filtered_action))
+			{
+				//call pre-filter
+				call_user_func_array(array(&$CI,$pre_filter_action),array_slice($URI->rsegments, 2));
+			}
+		}
+	}
+
+/*
+ * ------------------------------------------------------
  *  Call the requested method
  * ------------------------------------------------------
  */
@@ -362,6 +384,28 @@
 
 	// Mark a benchmark end point
 	$BM->mark('controller_execution_time_( '.$class.' / '.$method.' )_end');
+
+/*
+ * ------------------------------------------------------
+ *  Is there a post-filter on the requested method?
+ * ------------------------------------------------------
+ */
+ 	if (isset($CI->post_filter) && is_array($CI->post_filter))
+	{
+		foreach ($CI->post_filter as $post_filter_action => $filtered_action)
+		{
+			if (is_string($filtered_action) && $method == $filtered_action)
+			{
+				//call post-filter
+				call_user_func_array(array(&$CI,$post_filter_action),array_slice($URI->rsegments, 2));
+			}
+			else if (is_array($filtered_action) && in_array($method,$filtered_action))
+			{
+				//call post-filter
+				call_user_func_array(array(&$CI,$post_filter_action),array_slice($URI->rsegments, 2));
+			}
+		}
+	}
 
 /*
  * ------------------------------------------------------
