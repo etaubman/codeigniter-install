@@ -22,6 +22,7 @@ class Welcome extends MY_Controller {
 	*/	
 	public function index()
 	{
+		//pre_print_r($_POST);
 		$this->load->view('welcome_message');
 	}
 	
