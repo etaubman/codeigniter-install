@@ -1,7 +1,4 @@
 <?php
-$_POST['abc'] = array('q'=>3);
-$_POST['eas'] = TRUE;
-$_POST['y'] = 'asdf';
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
